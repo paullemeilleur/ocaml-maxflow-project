@@ -3,5 +3,9 @@
         "*.ml": "ocaml",
         "*.mli": "ocaml"
     },
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "ocaml.sandbox": {
+        "kind": "custom",
+        "template": "opam exec --root /mnt/commetud/GEI/OCaml/.opam -- $prog $args",
+    }
 }
