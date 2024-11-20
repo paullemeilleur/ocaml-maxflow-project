@@ -112,4 +112,17 @@ let from_file path =
   close_in infile ;
   final_graph
   
-let export graph path = write_file path graph
+let export graph path = 
+
+  let ff = open_out path in
+
+  fprintf ff "
+  fontname = \"Helvetica, Arial, sans-serif\" 
+  node[fontname = \"Helvetica, Arial, sans-serif\"] 
+  edge[fontname = \"Helvetica, Arial, sans-serif\"]
+  rankdir = LR;
+  node [shape = circle];";
+
+
+  close_out ff ;
+  ()
