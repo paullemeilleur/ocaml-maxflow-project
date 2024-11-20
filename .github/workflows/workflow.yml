@@ -25,7 +25,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Try to restore opam cache
+      - name: Try to restoregit@github.com:paullemeilleur/ocaml-maxflow-project.gitopam cache
         if: runner.os != 'Windows'
         id: opam-cache
         uses: actions/cache@v2
