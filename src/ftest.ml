@@ -32,5 +32,8 @@ let () =
   (* Rewrite the graph that has been read. *)
   let () = write_file outfile graph in
 
+  (*Test Tools*)
+  let () = write_file outfile (clone_nodes graph) in
+  let () = write_file outfile (gmap graph (fun x -> x)) in
   ()
 
