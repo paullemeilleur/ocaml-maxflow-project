@@ -30,10 +30,13 @@ let () =
   let graph = from_file infile in
 
   (* Rewrite the graph that has been read. *)
-  let () = write_file outfile graph in
+  let () = write_file (outfile^"0") graph in
 
   (*Test Tools*)
-  let () = write_file outfile (clone_nodes graph) in
-  let () = write_file outfile (gmap graph (fun x -> x)) in
+  let () = write_file (outfile^"1") (clone_nodes graph) in
+  let tout_ca = add_arc (gmap graph (fun x -> int_of_string x)) 1 2 3 in 
+  let () = write_file (outfile^"2") (gmap tout_ca (fun x -> string_of_int x)) in
+
+  (* Export the graph to a file *)
   ()
 

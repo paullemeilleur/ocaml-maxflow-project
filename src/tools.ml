@@ -13,5 +13,7 @@ let gmap (gr: 'a graph) (f: 'a -> 'b) =
 (* Replace _gr and _f by gr and f when you start writing the real function. *)
 
 let add_arc (g : int graph) (id1 : id) (id2 : id) (n : int) =
-  new_arc g {src=id1; tgt=id2; lbl=n}
+  match find_arc g id1 id2 with
+  | Some x -> new_arc g {src=x.src; tgt=x.tgt; lbl=x.lbl+n}
+  | None -> new_arc g {src=id1; tgt=id2; lbl=n}
 
