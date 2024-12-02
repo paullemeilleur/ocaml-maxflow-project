@@ -117,12 +117,17 @@ let export graph path =
   let ff = open_out path in
 
   fprintf ff "
-  fontname = \"Helvetica, Arial, sans-serif\" 
-  node[fontname = \"Helvetica, Arial, sans-serif\"] 
-  edge[fontname = \"Helvetica, Arial, sans-serif\"]
-  rankdir = LR;
+  digraph G {
+  fontname=\"Helvetica,Arial,sans-serif\" 
+  node [fontname=\"Helvetica,Arial,sans-serif\"] 
+  edge [fontname=\"Helvetica,Arial,sans-serif\"]
+  rankdir=LR;
   node [shape = circle];";
 
+  (* Write all arcs *)
+  e_iter graph (fun arc -> fprintf ff "%d -> %d [label=\"%s\"];\n" arc.src arc.tgt arc.lbl) ;
+
+  fprintf ff "}\n" ;
 
   close_out ff ;
   ()

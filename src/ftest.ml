@@ -38,5 +38,6 @@ let () =
   let () = write_file (outfile^"2") (gmap tout_ca (fun x -> string_of_int x)) in
 
   (* Export the graph to a file *)
+  export graph (outfile^"3") ;
   ()
 
