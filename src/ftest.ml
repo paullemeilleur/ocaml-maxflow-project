@@ -1,5 +1,6 @@
 open Gfile
 open Tools
+open Ford_fulk
     
 let () =
 
@@ -39,5 +40,12 @@ let () =
 
   (* Export the graph to a file *)
   export graph (outfile^"3") ;
+
+  (* Create a flot graph *)
+  let flot_graph = create_flot_graph (gmap graph (fun x -> int_of_string x)) in
+  let graph_ecart = graph_ecart flot_graph in
+  export (gmap graph_ecart (fun x -> string_of_int x)) (outfile^"4")
+   ;
+
   ()
 
