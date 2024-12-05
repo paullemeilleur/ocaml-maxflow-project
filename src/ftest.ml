@@ -44,8 +44,21 @@ let () =
   (* Create a flot graph *)
   let flot_graph = create_flot_graph (gmap graph (fun x -> int_of_string x)) in
   let graph_ecart = graph_ecart flot_graph in
-  export (gmap graph_ecart (fun x -> string_of_int x)) (outfile^"4")
-   ;
+  export (gmap graph_ecart (fun x -> string_of_int x)) (outfile^"4");
+  
+    (* Find a path *)
+  let path = (find_path graph_ecart 0 4) in
+  let rec string_path path = 
+    match path with
+    | [] -> ""
+    | x:: rest -> string_of_int x ^ " " ^ string_path rest in
+  Printf.printf "Path: %s\n" (string_path path);
+  let min_path = min_path_value graph_ecart path in
+  Printf.printf "Min path: %d\n" min_path;
+  let new_graph = update_path graph_ecart path min_path in
+  export (gmap new_graph (fun x -> string_of_int x)) (outfile^"5");;
+
+
 
   ()
 
