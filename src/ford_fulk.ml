@@ -1,5 +1,6 @@
 open Graph
 open Tools
+open Gfile
 
 (* Création du type Flot *)
 type flot =
@@ -16,14 +17,15 @@ let create_flot_graph (graph: int graph) =
   gmap graph (fun lbl -> {capa = lbl ; flot= 0});;
 
 
-let write_flot (init : int graph) ecart_graph = 
+let write_flot init ecart_graph = 
   let aux graph arc =
-    let retour = find_arc ecart_graph arc.tgt arc.src in
-    match retour with
-    |None -> new_arc graph {src = arc.src ; tgt = arc.tgt ; lbl = {capa = arc.lbl; flot = 0}}
-    |Some x -> new_arc graph {src = arc.src ; tgt = arc.tgt ; lbl = {capa = arc.lbl; flot = x.lbl}}
+    let aller = find_arc ecart_graph arc.src arc.tgt in
+    match aller with
+    |None -> graph
+    |Some x -> if(x.lbl > arc.lbl) then new_arc graph {src = arc.src ; tgt = arc.tgt ; lbl = {capa = arc.lbl; flot = 0}} 
+                  else new_arc graph {src = arc.src ; tgt = arc.tgt ; lbl = {capa = arc.lbl; flot = arc.lbl - x.lbl}}
   in 
-  e_fold init aux;;
+  e_fold init aux (clone_nodes init);;
 
 
 (* Ecart *)
@@ -106,9 +108,14 @@ let rec ford_fulkerson_boucle graphe source destination =
     ford_fulkerson_boucle new_graph source destination
   else graphe;;
 
+
+  
 (* Alogithme de Ford-Fulkerson *)
 let ford_fulkerson graphe source destination = 
   let flot_graphe = create_flot_graph graphe in
+  export (gmap flot_graphe (fun x -> (string_of_int x.flot) ^ "/" ^ (string_of_int x.capa))) ("Graphe_initial");
   let ecart_graphe = graph_ecart flot_graphe in
   let graphe_ecart_final = ford_fulkerson_boucle ecart_graphe source destination in
-  write_flot graphe graphe_ecart_final;;
+  export (gmap graphe_ecart_final (fun x -> string_of_int x)) ("Graphe_ecart_final");
+  let graph_flot = (write_flot graphe graphe_ecart_final) in 
+  export (gmap graph_flot (fun x -> (string_of_int x.flot) ^ "/" ^ (string_of_int x.capa))) ("Graphe_final");;

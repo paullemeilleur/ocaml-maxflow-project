@@ -24,5 +24,5 @@ val min_path_value: int graph -> id list -> int;;
 (* Update flot graph *)
 val update_path: int graph -> id list -> int -> int graph;;
 
-(* Ford-Fulkerson 
-val ford_fulkerson: 'a graph -> id -> id -> 'a graph;;*)
+(* Ford-Fulkerson *)
+val ford_fulkerson: id graph -> id -> id -> unit;;

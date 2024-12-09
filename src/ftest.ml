@@ -20,7 +20,7 @@ let () =
   (* Arguments are : infile(1) source-id(2) sink-id(3) outfile(4) *)
   
   let infile = Sys.argv.(1)
-  and outfile = Sys.argv.(4)
+  (* and outfile = Sys.argv.(4) *)
   
   (* These command-line arguments are not used for the moment. *)
   and _source = int_of_string Sys.argv.(2)
@@ -29,7 +29,7 @@ let () =
 
   (* Open file *)
   let graph = from_file infile in
-
+(* 
   (* Rewrite the graph that has been read. *)
   let () = write_file (outfile^"0") graph in
 
@@ -56,8 +56,9 @@ let () =
   let min_path = min_path_value graph_ecart path in
   Printf.printf "Min path: %d\n" min_path;
   let new_graph = update_path graph_ecart path min_path in
-  export (gmap new_graph (fun x -> string_of_int x)) (outfile^"5");;
-
+  export (gmap new_graph (fun x -> string_of_int x)) (outfile^"5"); *)
+  export graph "graph";
+  ford_fulkerson (gmap graph (fun x -> int_of_string x)) _source _sink;
 
 
   ()

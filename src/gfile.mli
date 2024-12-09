@@ -2,7 +2,6 @@
  * Write a graph to a file. *)
 
 open Graph
-open Ford_fulk
 
 type path = string
 
@@ -19,5 +18,3 @@ val write_file: path -> string graph -> unit
 *)
 
 val export: string graph -> path -> unit
-
-val export_flot: flot graph -> path -> unit

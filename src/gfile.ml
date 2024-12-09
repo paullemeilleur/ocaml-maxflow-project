@@ -1,6 +1,5 @@
 open Graph
 open Printf
-open Ford_fulk
     
 type path = string
 
@@ -127,25 +126,6 @@ let export graph path =
 
   (* Write all arcs *)
   e_iter graph (fun arc -> fprintf ff "%d -> %d [label=\"%s\"];\n" arc.src arc.tgt arc.lbl) ;
-
-  fprintf ff "}\n" ;
-
-  close_out ff ;
-  ();;
-
-  let export_flot (graph: flot graph) path =
-    let ff = open_out path in
-
-  fprintf ff "
-  digraph G {
-  fontname=\"Helvetica,Arial,sans-serif\" 
-  node [fontname=\"Helvetica,Arial,sans-serif\"] 
-  edge [fontname=\"Helvetica,Arial,sans-serif\"]
-  rankdir=LR;
-  node [shape = circle];";
-
-  (* Write all arcs *)
-  e_iter graph (fun arc -> fprintf ff "%d -> %d [label=\"%s\"];\n" arc.src arc.tgt ((string_of_int arc.lbl.flot) ^ "/" ^ (string_of_int arc.lbl.capa))) ;
 
   fprintf ff "}\n" ;
 
