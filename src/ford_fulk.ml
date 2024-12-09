@@ -1,6 +1,7 @@
 open Graph
 open Tools
 
+(* Création du type Flot *)
 type flot =
   { 
     (* Capacité *)
@@ -9,9 +10,11 @@ type flot =
     (* Flot *)  
     flot: int}
 
+
 (* Création d'un graphe flot *)
 let create_flot_graph (graph: int graph) = 
   gmap graph (fun lbl -> {capa = lbl ; flot= 0});;
+
 
 let write_flot (init : int graph) ecart_graph = 
   let aux graph arc =
@@ -22,7 +25,6 @@ let write_flot (init : int graph) ecart_graph =
   in 
   e_fold init aux;;
 
-  
 
 (* Ecart *)
 let arcs_ecart (arc : flot arc) graph =
@@ -47,7 +49,7 @@ let arc_valid arc =
   |0 -> false
   |_-> true;;
 
-(* Find path *)
+(* Find a path in the arc *)
 let find_path (graph : int graph) source destination =
   let rec find_path_aux graphe src dest visited =
     if src = dest then [src]
@@ -77,7 +79,7 @@ let rec min_path_value graph path =
                  |Some z -> min z.lbl (min_path_value graph (y::rest));;
 
 
-(*Update the path*)
+(* Update the path *)
 let rec update_path graph path value =
     match path with
     |[] -> graph
@@ -88,14 +90,14 @@ let rec update_path graph path value =
       update_path new_graph_bis (y::rest) value;;
 
 
-(* Check if a path exist*)
+(* Check if a path exist *)
 let path_exist path =
   match path with
   |[] -> false
   |[_] -> false
   |_::_ -> true;;
 
-(* Ford-Fulkerson *)
+(* Boucle Princiaple de l'algorithme de Ford-Fulkerson *)
 let rec ford_fulkerson_boucle graphe source destination = 
   let path = find_path graphe source destination in
   if path_exist path then
@@ -104,7 +106,7 @@ let rec ford_fulkerson_boucle graphe source destination =
     ford_fulkerson_boucle new_graph source destination
   else graphe;;
 
-
+(* Alogithme de Ford-Fulkerson *)
 let ford_fulkerson graphe source destination = 
   let flot_graphe = create_flot_graph graphe in
   let ecart_graphe = graph_ecart flot_graphe in
