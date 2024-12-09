@@ -10,14 +10,14 @@ jobs:
       fail-fast: false
       matrix:
         os:
-#          - macos-latest
-         - ubuntu-latest
-#          - windows-latest
+          #          - macos-latest
+          - ubuntu-latest
+        #          - windows-latest
         ocaml-version:
           - 4.14.0
-#          - 4.10.1
-#          - 4.09.1
-#          - 4.08.1
+    #          - 4.10.1
+    #          - 4.09.1
+    #          - 4.08.1
 
     runs-on: ${{ matrix.os }}
 
@@ -31,7 +31,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: "~/.opam"
-          key: ${{ matrix.os }}-${{ matrix.ocaml-version }}  
+          key: ${{ matrix.os }}-${{ matrix.ocaml-version }}
 
       - name: Use OCaml ${{ matrix.ocaml-version }}
         uses: avsm/setup-ocaml@v1
@@ -43,4 +43,3 @@ jobs:
         run: eval $(opam env) && make build
       - name: Run demo
         run: eval $(opam env) && make demo
-
