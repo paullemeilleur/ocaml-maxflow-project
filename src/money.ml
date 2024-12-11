@@ -6,18 +6,11 @@ with e ->
   Printf.printf "Cannot read node in line - %s:\n%s\n%!" (Printexc.to_string e) line ;
   failwith "from_file"
 
-  let positioon_element liste personne =
-    let rec aux acu = function
-      |[] -> None
-      | (p, _):: rest -> if p = personne then Some acu else aux (acu + 1) rest
-    in
-    aux 0 liste
 
-
-  let rec add_id liste map =
+let rec add_id liste compteur (map: (int, 'a *'b) Hashtbl.t)  =
   match liste with
   | [] -> map
-  | (personne, somme) :: rest -> add_id rest (Hashtbl.add map (personne,somme) (positioon_element liste personne))
+  | (personne, somme) :: rest -> (Hashtbl.add map compteur (personne,somme)); add_id rest (compteur + 1) map;;
 
 
 
