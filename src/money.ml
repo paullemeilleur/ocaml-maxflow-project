@@ -2,9 +2,9 @@
 
 let create_liste liste line  =
   try Scanf.sscanf line "p %s %d" (fun personne somme -> (personne, somme) :: liste)
-with e ->
-  Printf.printf "Cannot read node in line - %s:\n%s\n%!" (Printexc.to_string e) line ;
-  failwith "from_file"
+  with e ->
+    Printf.printf "Cannot read node in line - %s:\n%s\n%!" (Printexc.to_string e) line ;
+    failwith "from_file"
 
 
 let rec add_id liste compteur (map: (int, 'a *'b) Hashtbl.t)  =
@@ -13,13 +13,13 @@ let rec add_id liste compteur (map: (int, 'a *'b) Hashtbl.t)  =
   | (personne, somme) :: rest -> (Hashtbl.add map compteur (personne,somme)); add_id rest (compteur + 1) map;;
 
 
-
 let read_comment graph line =
   try Scanf.sscanf line " %%" graph
   with _ ->
     Printf.printf "Unknown line:\n%s\n%!" line ;
     failwith "from_file"
 
+    
 let from_file path =
 
   let infile = open_in path in
