@@ -1,4 +1,4 @@
-
+open Graph
 
 let create_liste liste line  =
   try Scanf.sscanf line "p %s %d" (fun personne somme -> (personne, somme) :: liste)
@@ -38,7 +38,7 @@ let from_file path =
 
         (* The first character of a line determines its content : n or e. *)
         else match line.[0] with
-          | 'p' -> create_map graph line 
+          | 'p' -> create_liste graph line 
 
           (* It should be a comment, otherwise we complain. *)
           | _ -> read_comment graph line
@@ -52,3 +52,13 @@ let from_file path =
   
   close_in infile ;
   final_graph
+
+let create_graph list =
+  let rec aux graph list = 
+    match list with
+    | [] -> graph
+    | (personne, _) :: rest -> aux (new_node graph personne) rest
+  in
+  let graph1 = new_node empty_graph "Source" in
+  let graph2 = new_node graph1 "Destination" in
+  aux graph2 list;;
