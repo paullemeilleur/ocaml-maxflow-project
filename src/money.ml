@@ -48,17 +48,51 @@ let from_file path =
     with End_of_file -> graph (* Done *)
   in
 
-  let final_graph = loop empty_graph in
+  let final_graph = loop [] in
   
   close_in infile ;
   final_graph
 
-let create_graph list =
-  let rec aux graph list = 
-    match list with
-    | [] -> graph
-    | (personne, _) :: rest -> aux (new_node graph personne) rest
-  in
-  let graph1 = new_node empty_graph "Source" in
-  let graph2 = new_node graph1 "Destination" in
-  aux graph2 list;;
+let create_hashtable liste =
+  let map = Hashtbl.create (List.length liste) in
+  add_id liste 0 map;;
+
+let create_all_nodes graphe (hastable: (int, 'a *'b) Hashtbl.t) =
+  let graph = ref graphe in
+  Hashtbl.iter (fun id _ -> graph := new_node !graph id) hastable;
+  !graph
+
+let add_source_node graph = (* Ajoute le noeud source, pour les personnes en négatif *)
+  new_node graph (-1)
+
+let add_destination_node graph = (* Ajoute le noeud destination, pour les personnes en positif *)
+  new_node graph (-2)
+
+(* Fonction qui ajoute les arcs vers la source et la destination *)
+let add_arcs graph hastable moyenne = 
+  let graph = ref graph in
+  Hashtbl.iter (fun id (_, somme) -> 
+    if somme > moyenne then
+      graph := new_arc !graph {src = id; tgt = (-2); lbl = (somme - moyenne)}
+    else
+      graph := new_arc !graph {src = (-1); tgt = id; lbl = (moyenne - somme)}
+  ) hastable;
+  !graph
+
+let add_arcs_between_nodes graph hastable = 
+  let graph = ref graph in
+  Hashtbl.iter (fun id (_, _) -> 
+    Hashtbl.iter (fun id2 (_, _) -> 
+      if id <> id2 then
+        graph := new_arc !graph {src = id; tgt = id2; lbl = 0}
+    ) hastable
+  ) hastable;
+  !graph
+
+let calculate_moyenne hastable =
+  let somme = ref 0 in
+  let nb_personnes = ref 0 in
+  Hashtbl.iter (fun _ (_, s) -> somme := !somme + s; nb_personnes := !nb_personnes + 1) hastable;
+  !somme / !nb_personnes
+
+
