@@ -1,4 +1,5 @@
 open Graph
+open Ford_fulk
 
 let create_liste liste line  =
   try Scanf.sscanf line "p %s %d" (fun personne somme -> (personne, somme) :: liste)
@@ -89,10 +90,23 @@ let add_arcs_between_nodes graph hastable =
   ) hastable;
   !graph
 
-let calculate_moyenne hastable =
-  let somme = ref 0 in
-  let nb_personnes = ref 0 in
-  Hashtbl.iter (fun _ (_, s) -> somme := !somme + s; nb_personnes := !nb_personnes + 1) hastable;
-  !somme / !nb_personnes
+let calculate_moyenne liste =
+  let rec aux liste somme nb_personnes =
+    match liste with
+    | [] -> somme / nb_personnes
+    | (_, s) :: rest -> aux rest (somme + s) (nb_personnes + 1)
+  in
+  aux liste 0 0
+
+let tricount =
+  let list = from_file "graphs/tricount.txt" in
+  let hashtable = create_hashtable list in
+  let graph = create_all_nodes empty_graph hashtable in
+  let moyenne = calculate_moyenne list in
+  let graph = add_source_node graph in
+  let graph = add_destination_node graph in
+  let graph = add_arcs graph hashtable moyenne in
+  let graph = add_arcs_between_nodes graph hashtable in
+  ford_fulkerson graph (-1) (-2)
 
 

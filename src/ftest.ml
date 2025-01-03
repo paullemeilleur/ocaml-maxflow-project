@@ -1,6 +1,7 @@
 open Gfile
 open Tools
 open Ford_fulk
+open Money
     
 let () =
 
@@ -57,9 +58,11 @@ let () =
   Printf.printf "Min path: %d\n" min_path;
   let new_graph = update_path graph_ecart path min_path in
   export (gmap new_graph (fun x -> string_of_int x)) (outfile^"5"); *)
+
   export graph "graph";
   ford_fulkerson (gmap graph (fun x -> int_of_string x)) _source _sink;
 
+  tricount ;
 
   ()
 
