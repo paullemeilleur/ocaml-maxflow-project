@@ -1,6 +1,6 @@
 open Gfile
-open Tools
-open Ford_fulk
+(*open Tools
+open Ford_fulk*)
 open Money
     
 let () =
@@ -60,7 +60,7 @@ let () =
   export (gmap new_graph (fun x -> string_of_int x)) (outfile^"5"); *)
 
   export graph "graph";
-  ford_fulkerson (gmap graph (fun x -> int_of_string x)) _source _sink;
+  (*ford_fulkerson (gmap graph (fun x -> int_of_string x)) _source _sink;*)
 
   tricount ;
 

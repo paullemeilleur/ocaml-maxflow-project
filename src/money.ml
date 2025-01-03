@@ -1,5 +1,7 @@
 open Graph
 open Ford_fulk
+open Gfile
+open Tools
 
 let create_liste liste line  =
   try Scanf.sscanf line "p %s %d" (fun personne somme -> (personne, somme) :: liste)
@@ -85,7 +87,7 @@ let add_arcs_between_nodes graph hastable =
   Hashtbl.iter (fun id (_, _) -> 
     Hashtbl.iter (fun id2 (_, _) -> 
       if id <> id2 then
-        graph := new_arc !graph {src = id; tgt = id2; lbl = 0}
+        graph := new_arc !graph {src = id; tgt = id2; lbl = 100000}
     ) hastable
   ) hastable;
   !graph
@@ -99,6 +101,7 @@ let calculate_moyenne liste =
   aux liste 0 0
 
 let tricount =
+  Printf.printf("Debut de Tricount");
   let list = from_file "graphs/tricount.txt" in
   let hashtable = create_hashtable list in
   let graph = create_all_nodes empty_graph hashtable in
@@ -107,6 +110,8 @@ let tricount =
   let graph = add_destination_node graph in
   let graph = add_arcs graph hashtable moyenne in
   let graph = add_arcs_between_nodes graph hashtable in
-  ford_fulkerson graph (-1) (-2)
+  export (gmap graph (fun x -> string_of_int x)) "tricount_graph";
+  ford_fulkerson graph (-1) (-2);
+  Printf.printf("Fin de Tricount")
 
 
