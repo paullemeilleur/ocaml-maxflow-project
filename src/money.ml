@@ -1,7 +1,5 @@
 open Graph
 open Ford_fulk
-open Gfile
-open Tools
 
 let create_liste liste line  =
   try Scanf.sscanf line "p %s %d" (fun personne somme -> (personne, somme) :: liste)
@@ -75,6 +73,7 @@ let add_destination_node graph = (* Ajoute le noeud destination, pour les person
 let add_arcs graph hastable moyenne = 
   let graph = ref graph in
   Hashtbl.iter (fun id (_, somme) -> 
+    Printf.printf "Somme = %d\n" somme;
     if somme > moyenne then
       graph := new_arc !graph {src = id; tgt = (-2); lbl = (somme - moyenne)}
     else
@@ -100,8 +99,34 @@ let calculate_moyenne liste =
   in
   aux liste 0 0
 
+let export_Money hashtable graph path =
+  let ff = open_out path in
+
+  Printf.fprintf ff "
+  digraph G {
+  fontname=\"Helvetica,Arial,sans-serif\" 
+  node [fontname=\"Helvetica,Arial,sans-serif\"] 
+  edge [fontname=\"Helvetica,Arial,sans-serif\"]
+  rankdir=LR;
+  node [shape = circle];";
+
+  (* Write all arcs *)
+  Hashtbl.iter (fun id (personne, _) ->
+    Hashtbl.iter (fun id2 (personne2, _) ->
+      if id <> id2 then
+        e_iter graph (fun arc ->
+          if arc.src = id && arc.tgt = id2 then
+            Printf.fprintf ff "%s -> %s [label=\"%s\"];\n" personne personne2 arc.lbl
+        )
+    ) hashtable
+  ) hashtable;
+
+  Printf.fprintf ff "}\n" ;
+
+  close_out ff ;
+  ();;
+
 let tricount =
-  Printf.printf("Debut de Tricount");
   let list = from_file "graphs/tricount.txt" in
   let hashtable = create_hashtable list in
   let graph = create_all_nodes empty_graph hashtable in
@@ -110,8 +135,10 @@ let tricount =
   let graph = add_destination_node graph in
   let graph = add_arcs graph hashtable moyenne in
   let graph = add_arcs_between_nodes graph hashtable in
-  export (gmap graph (fun x -> string_of_int x)) "tricount_graph";
-  ford_fulkerson graph (-1) (-2);
-  Printf.printf("Fin de Tricount")
+  let exportation = export_Money hashtable in
+  ford_fulkerson graph (-1) (-2) exportation;
+  Printf.printf "Moyenne = %d\n" moyenne  ;
+  Hashtbl.iter (fun id (personne, somme) -> Printf.printf "ID: %d, Personne: %s, Somme: %d\n" id personne somme) hashtable;;
+
 
 

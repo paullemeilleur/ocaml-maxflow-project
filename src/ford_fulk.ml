@@ -1,12 +1,11 @@
 open Graph
 open Tools
-open Gfile
 
 (* Création du type Flot *)
 type flot =
   { 
     (* Capacité *)
-    capa: int ;
+    capa: int;
 
     (* Flot *)  
     flot: int}
@@ -109,13 +108,17 @@ let rec ford_fulkerson_boucle graphe source destination =
   else graphe;;
 
 
+  let capa_to_string x = 
+    match x with 
+    |100000 -> "inf"
+    |x -> string_of_int x;;
   
 (* Alogithme de Ford-Fulkerson *)
-let ford_fulkerson graphe source destination = 
+let ford_fulkerson graphe source destination exportation = 
   let flot_graphe = create_flot_graph graphe in
-  export (gmap flot_graphe (fun x -> (string_of_int x.flot) ^ "/" ^ (string_of_int x.capa))) ("Graphe_initial");
+  exportation (gmap flot_graphe (fun x -> (string_of_int x.flot) ^ "/" ^ (capa_to_string x.capa))) ("Graphe_initial");
   let ecart_graphe = graph_ecart flot_graphe in
   let graphe_ecart_final = ford_fulkerson_boucle ecart_graphe source destination in
-  export (gmap graphe_ecart_final (fun x -> string_of_int x)) ("Graphe_ecart_final");
+  exportation (gmap graphe_ecart_final (fun x -> string_of_int x)) ("Graphe_ecart_final");
   let graph_flot = (write_flot graphe graphe_ecart_final) in 
-  export (gmap graph_flot (fun x -> (string_of_int x.flot) ^ "/" ^ (string_of_int x.capa))) ("Graphe_final");;
+  exportation (gmap graph_flot (fun x -> (string_of_int x.flot) ^ "/" ^ (capa_to_string x.capa))) ("Graphe_final");;

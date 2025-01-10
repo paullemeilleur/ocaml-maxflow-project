@@ -1,5 +1,5 @@
 open Graph
-
+open Gfile
 
 type flot =
   { 
@@ -8,6 +8,7 @@ type flot =
 
     (* Flot *)  
     flot: int}
+
 
 (* Création d'un graphe flot *)
 val create_flot_graph: int graph -> flot graph;;
@@ -25,4 +26,4 @@ val min_path_value: int graph -> id list -> int;;
 val update_path: int graph -> id list -> int -> int graph;;
 
 (* Ford-Fulkerson *)
-val ford_fulkerson: id graph -> id -> id -> unit;;
+val ford_fulkerson: id graph -> id -> id -> (path graph -> path -> unit)-> unit;;

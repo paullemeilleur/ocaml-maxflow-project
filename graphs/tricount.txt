@@ -1,10 +1,10 @@
 %% Les personnes qui utilisent l'application
-p Paul 10
-p Sophie 20
-p Mateo 30
+p Paul 40
+p Sophie 10
+p Mateo 10
 p Yassine 0
 p Yacine 15
-p Elise 100
-p Elian 50
+%p Elise 100
+%p Elian 50
 
 %% Les contraintes que l'ont peut rencontrer (une personne ne veut pas rembourser une autre...)
