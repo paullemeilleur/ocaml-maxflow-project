@@ -4,23 +4,24 @@
   node [fontname="Helvetica,Arial,sans-serif"] 
   edge [fontname="Helvetica,Arial,sans-serif"]
   rankdir=LR;
-  node [shape = circle];0 -> 3 [label="0/2"];
-0 -> 2 [label="0/2"];
-0 -> 1 [label="0/4"];
-1 -> 4 [label="0/2"];
-1 -> 6 [label="0/2"];
-1 -> 5 [label="0/2"];
-4 -> 10 [label="0/2"];
-2 -> 5 [label="0/2"];
-10 -> 12 [label="0/6"];
-3 -> 6 [label="0/2"];
-3 -> 8 [label="0/2"];
-6 -> 9 [label="0/2"];
-8 -> 11 [label="0/2"];
-11 -> 9 [label="0/2"];
-9 -> 10 [label="0/4"];
-5 -> 10 [label="0/1"];
-5 -> 7 [label="0/1"];
-7 -> 12 [label="0/2"];
-7 -> 10 [label="0/1"];
+  node [shape = circle];Mateo -> Sophie [label="0/inf"];
+Mateo -> Paul [label="0/inf"];
+Mateo -> Yacine [label="0/inf"];
+Mateo -> Yassine [label="0/inf"];
+Sophie -> Mateo [label="0/inf"];
+Sophie -> Paul [label="0/inf"];
+Sophie -> Yacine [label="0/inf"];
+Sophie -> Yassine [label="0/inf"];
+Paul -> Mateo [label="0/inf"];
+Paul -> Sophie [label="0/inf"];
+Paul -> Yacine [label="0/inf"];
+Paul -> Yassine [label="0/inf"];
+Yacine -> Mateo [label="0/inf"];
+Yacine -> Sophie [label="0/inf"];
+Yacine -> Paul [label="0/inf"];
+Yacine -> Yassine [label="0/inf"];
+Yassine -> Mateo [label="0/inf"];
+Yassine -> Sophie [label="0/inf"];
+Yassine -> Paul [label="0/inf"];
+Yassine -> Yacine [label="0/inf"];
 }

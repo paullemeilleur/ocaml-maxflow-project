@@ -125,7 +125,7 @@ let export_Money hashtable graph path =
   close_out ff ;
   ();;
 
-let tricount =
+let tricount () =
   let list = from_file "graphs/tricount.txt" in
   let hashtable = create_hashtable list in
   let graph = create_all_nodes empty_graph hashtable in

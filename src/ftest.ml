@@ -1,11 +1,14 @@
-open Gfile
+(* open Gfile
 open Tools
-open Ford_fulk
+open Ford_fulk *)
 open Money
+
+let f () = 
+  tricount
     
 let () =
 
-  (* Check the number of command-line arguments *)
+  (* Check the number of command-line arguments
   if Array.length Sys.argv <> 5 then
     begin
       Printf.printf
@@ -32,9 +35,9 @@ let () =
   let graph = from_file infile in
 
   export graph "graph";
-  ford_fulkerson (gmap graph (fun x -> int_of_string x)) _source _sink Gfile.export;
+  ford_fulkerson (gmap graph (fun x -> int_of_string x)) _source _sink Gfile.export; *)
 
-  tricount ;
+  tricount();
 
   ()
 
