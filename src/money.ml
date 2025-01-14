@@ -81,14 +81,14 @@ let add_arcs graph hastable moyenne =
   ) hastable;
   !graph
 
-let add_arcs_between_nodes graph hastable = 
+let add_arcs_between_nodes graph hashtable = 
   let graph = ref graph in
   Hashtbl.iter (fun id (_, _) -> 
     Hashtbl.iter (fun id2 (_, _) -> 
       if id <> id2 then
         graph := new_arc !graph {src = id; tgt = id2; lbl = 100000}
-    ) hastable
-  ) hastable;
+    ) hashtable
+  ) hashtable;
   !graph
 
 let calculate_moyenne liste =
