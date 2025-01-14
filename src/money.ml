@@ -70,15 +70,14 @@ let add_destination_node graph = (* Ajoute le noeud destination, pour les person
   new_node graph (-2)
 
 (* Fonction qui ajoute les arcs vers la source et la destination *)
-let add_arcs graph hastable moyenne = 
+let add_arcs graph hashtable moyenne = 
   let graph = ref graph in
   Hashtbl.iter (fun id (_, somme) -> 
-    Printf.printf "Somme = %d\n" somme;
     if somme > moyenne then
       graph := new_arc !graph {src = id; tgt = (-2); lbl = (somme - moyenne)}
     else
       graph := new_arc !graph {src = (-1); tgt = id; lbl = (moyenne - somme)}
-  ) hastable;
+  ) hashtable;
   !graph
 
 let add_arcs_between_nodes graph hashtable = 
